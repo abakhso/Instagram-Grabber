@@ -35,7 +35,7 @@ Bolandish\Instagram::getMediaAfterByUserID(460563723, 1060728019300790746, 10);
 
 ### Get media by location id
 ```php
-Bolandish\Instagram::getMediaByLocationID("776894129", 1000);
+Bolandish\Instagram::getMediaByLocationID(776894129, 1000);
 ```
 
 If something missing in the response, please open an issue to report :)

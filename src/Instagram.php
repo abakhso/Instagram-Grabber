@@ -101,7 +101,7 @@ class Instagram {
 
      public static function getMediaByLocationID($location = null, $count = 16, $assoc = false, $comment_count = false)
     {
-        if ( empty($location) || !is_string($location) )
+        if ( empty($location) || !is_int($location))
         {
             return false;
         }
