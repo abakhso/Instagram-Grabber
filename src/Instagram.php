@@ -5,12 +5,12 @@ class Instagram {
 
     /**
      * @param $hashtag  string  Hashtag
-     * @param $cursor   string  Cursor value from first request response. Usually you will need media.page_info.end_cursor value. 
      * @param $count    integer Limit
      * @param $assoc    boolean Will return array or stdObjects
      * @param $comment_count integer 
+     * @param $cursor   string  Cursor value from first request response. Usually you will need media.page_info.end_cursor value. 
      */
-    public static function getMediaByHashtag($hashtag = null, $cursor = null, $count = 16, $assoc = false, $comment_count = false)
+    public static function getMediaByHashtag($hashtag = null, $count = 16, $assoc = false, $comment_count = false, $cursor = null)
     {
         if ( empty($hashtag) || !is_string($hashtag) )
         {
