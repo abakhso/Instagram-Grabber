@@ -26,7 +26,7 @@ class Instagram {
         $hashtag = strtolower($hashtag);
 
         if ($cursor) {
-            $mediaFunction = "media.after($endCursor, $count)";
+            $mediaFunction = "media.after($cursor, $count)";
         } else {
             $mediaFunction = "media.first($count)";
         }
