@@ -2,7 +2,17 @@
 namespace Bolandish;
 
 class Instagram {
-    public static function getMediaByHashtag($hashtag = null, $count = 16, $assoc = false, $comment_count = false)
+
+
+/**
+     * @param $hashtag  string  Hashtag
+     * @param $count    integer Limit
+     * @param $assoc    boolean Will return array or stdObjects
+     * @param $comment_count integer 
+     * @param $cursor   string  Cursor value from first request response. Usually you will need page_info.end_cursor value. 
+     * @param &$page_info mixed Current page information
+     */
+    public static function getMediaByHashtag($hashtag = null, $count = 16, $assoc = false, $comment_count = false, $cursor = null, &$page_info = null)
     {
         if ( empty($hashtag) || !is_string($hashtag) )
         {
@@ -14,13 +24,23 @@ class Instagram {
             $comments = "comments {       count     }";
         }
         $hashtag = strtolower($hashtag);
-        $parameters = urlencode("ig_hashtag($hashtag) { media.first($count) {   count,   nodes {     caption,     code,   $comments,     date,     dimensions {       height,       width     },     display_src,     id,     is_video,     likes {       count     },     owner {       id,       username,       full_name,       profile_pic_url,     biography     },     thumbnail_src,     video_views,     video_url   },   page_info }  }");
+
+        if ($cursor) {
+            $mediaFunction = "media.after($cursor, $count)";
+        } else {
+            $mediaFunction = "media.first($count)";
+        }
+
+        $parameters = urlencode("ig_hashtag($hashtag) { $mediaFunction {   count,   nodes {     caption,     code,   $comments,     date,     dimensions {       height,       width     },     display_src,     id,     is_video,     likes {       count     },     owner {       id,       username,       full_name,       profile_pic_url,     biography     },     thumbnail_src,     video_views,     video_url   },   page_info }  }");
         $url = "https://www.instagram.com/query/?q=$parameters&ref=tags%3A%3Ashow";
         $media = json_decode(file_get_contents($url), ($assoc || $assoc == "array"));
-        if($assoc == "array")
+        if ($assoc == "array") {
+            $page_info = $media["media"]["page_info"];
             $media = $media["media"]["nodes"];
-        else
+        } else {
+            $page_info = $media->media->page_info;
             $media = $media->media->nodes;
+        }
         return $media;
     }
 
